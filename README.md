@@ -9,7 +9,7 @@ The first model will solve the main parameters required to describe a geothermal
 
 The second model will create a production strategy focused on increasing the general revenue of the power plant while reducing the environmental impacts of the extraction (carbon emissions, excessive brine extraction and reservoir pressure drawdown)
 
-About the files in this repository: 
+**About the files in this repository:**
 
 main.py will be the main code, which will run the rest of .py code. 
 

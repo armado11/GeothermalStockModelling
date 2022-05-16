@@ -11,32 +11,34 @@ from prod_5y_linearx import E, R, H, fT, x, fS, fL, fCO2, objective_z, cons1, st
 if __name__ == '__main__':
 
     '1.- Input the final database for each well with all data preprocessed'
-    path = 'C:/Users/98man/Desktop/Final BJ-11.xlsx'
+    path = 'C:/User/Downloads/GeothermalStockModelling/Final BJ-11.xlsx'
     data11 = pd.ExcelFile(f'{path}')
     BJ11 = pd.read_excel(data11, 1)
 
-    path = 'C:/Users/98man/Desktop/Final BJ-12.xlsx'
+    path = 'C:/User/Downloads/GeothermalStockModelling/Final BJ-12.xlsx'
     data12 = pd.ExcelFile(f'{path}')
     BJ12 = pd.read_excel(data12, 0)
 
     '2.- Optimization for BJ-11'
-    iparams11 = [40, 70, 180, 200]
-    res = minimize(sum_of_squares, iparams11, method='L-BFGS-B', args = BJ11, bounds = ((31.8, None), (0, None), (0, None), (0, None)))
-    par11 = res.x
+    iparams11 = [40, 70, 180, 200] #initial parameters for the stock model parametrization for well BJ-11
+    
+    #minimization of the sum of squares error, use maximum known pressure as minimum bound for the maximum pressure variable (x[0]). 
+    res = minimize(sum_of_squares, iparams11, method='L-BFGS-B', args = BJ11, bounds = ((31.8, None), (0, None), (0, None), (0, None))) 
+    par11 = res.x #get the optimized parameters
     
     print('--- BJ-11 ---')
     #print(par11)
     print('P_max: {} [bar]; Q_max: {} [MW], S_max: {} [MWyr]; R_max: {} [MW]'.format(par11[0], par11[1], par11[2], par11[3]))
-    print('Sum of squares error: {}' .format(sum_of_squares(par11, BJ11)))
+    print('Sum of squares error: {}' .format(sum_of_squares(par11, BJ11))) #error of the optimum parameters
 
+    #uncomment the following two lines to get a filled database with the optimal parameters and the calculated stock, extraction and recharge values for each timestep
     #database11, dt, extraction_data, extraction_pred, recharge_pred, stock_pred, diff = model(par11, BJ11)
     #print(database11)
-
-    '3.- Optimization for BJ-12'
+    
+    '3.- Optimization for BJ-12' #same code as 2.- just for well BJ-12
     iparams12 = [40, 80, 160, 100]
     res = minimize(sum_of_squares, iparams12, method='L-BFGS-B', args = BJ12, bounds = ((0, None), (0, None), (0, None), (0, None)))
     par12 = res.x
-
     print('--- BJ-12 ---')
     #print(par12)
     print('P_max: {} [bar]; Q_max: {} [MW], S_max: {} [MWyr]; R_max: {} [MW]'.format(par12[0], par12[1], par12[2], par12[3]))
@@ -45,32 +47,33 @@ if __name__ == '__main__':
     #database12, dt, extraction_data, extraction_pred, recharge_pred, stock_pred, diff = model(par12, BJ12)
     #print(database12)
 
-    '4.- Production optimization'
-    params = [par11, par12]
+    '4.- Production optimization initial variables'
+    params = [par11, par12] #add all parameters to a list
     
     'timestep settings: one step = one month'
-    n_years = 5
-    n_timesteps = (24 * n_years) + 1 #twoweekly
-    deltat = 1/24 #if changed, remember to also change it for stock_balance() and stock_balance_ex
+    n_years = 5 #choose the wanted amount of years
+    n_timesteps = (24 * n_years) + 1 #12 for monthly, 24 for twoweekly calculations. Change depending on the amount of timesteps wanted in a year 
+    deltat = 1/24 #Period between timestes. If changed, remember to also change it in stock_balance() and stock_balance_ex()
 
     'Number of wells'
-    n_wells = 2
-    n_pars = 2 #P & S
+    n_wells = 2 #Number of wells
+    n_pars = 2 #Number of variables, in our case, Pressure & Stock
 
-    'Initial VARIABLE list' #[P11, P12, S11, S12]
-    #z0 = T x 2N where T is timesteps and N is number of wells (multiplied to have P and S)
-    z0 = [1 for y in range(n_timesteps * n_wells * n_pars)] 
+    'Initial VARIABLE list' #Create the variable list formatted as [P11(t=0), P12(t=0), S11(t=0), S12(t=0), ..., P11(t=120), P12(t=120), S11(t=120), S12(t=120)] 
+    #where P11 is Pressure of BJ-11 in bars, P12 is Pressure of BJ-12 in bars, S11 is stock of BJ-11 in MWyr and S12 is stock of BJ-12 in MWyr
+    
+    z0 = [1 for y in range(n_timesteps * n_wells * n_pars)] #z0 = T x 2N where T is timesteps and N is number of wells (multiplied to have Pressure and Stock for each well)
     'To create the list as wanted with [P11, P12, S11, S12, ...] structure'
-    for t in range(n_timesteps): 
+    for t in range(n_timesteps): #loop creating each 4 variables for each timestep
         y = t*4
-        z0[y] = 12.1
-        z0[y+1] = 10.1
-        z0[y+2]= params[0][2] - 5
-        z0[y+3] = params[1][2] - 5            
+        z0[y] = 12.1 #random initial value for pressure of the first well (index = 0)
+        z0[y+1] = 10.1 #random initial value for pressure of the second well (index = 1)
+        z0[y+2]= params[0][2] - 5 #random initial value for stock of the first well (index = 2)
+        z0[y+3] = params[1][2] - 5 #random initial value for stock of the second well (index = 3)
     #print(z0)
 
-    'Boundaries for each t'
-    #bnds = [(12, 26),(10, 26), (0, params[0][2]), (0, params[1][2])]
+    'Boundaries for each t' #Same as creating a variable list but for boundaries
+    
     bnds = [1 for y in range(n_timesteps * n_wells * n_pars)] 
     'To create the list as wanted with [P11, P12, S11, S12, ...] structure also for bounds of each variable'
     for t in range(n_timesteps): 
@@ -84,7 +87,7 @@ if __name__ == '__main__':
     cons = ({'type': 'ineq', 'fun': cons1, 'args': params}, 
             {'type': 'eq', 'fun': stock_balance, 'args': params})
 
-    
+    '5.- Production optimization'
     res = minimize(objective_z, z0, args = (params), method = 'SLSQP', bounds = bnds, constraints = cons, options= {'maxiter': 1000})
     #res = minimize(objective_z, z0, args = (params), method = 'trust-constr', 
     #                bounds = bnds, constraints = cons,
@@ -100,10 +103,11 @@ if __name__ == '__main__':
     print(f_z)
     print(objective_z(f_z, params))
 
-    'Create data show databrame'
+    '5.- Production estrategy database'
+    
     df = pd.DataFrame(columns = ['Year', 'P11', 'S11', 'E11', 'R11', 'H11', 'TF11', 'SF11', 'LF11',\
         'P12', 'S12', 'E12', 'R12', 'H12', 'TF12', 'SF12', 'LF12', \
-        'Obj', 'Total Steam', 'Total Water', 'CO211', 'CO212', 'Total CO2'])
+        'Obj', 'Total Steam', 'Total Water', 'CO211', 'CO212', 'Total CO2']) #Create dataframe showing different parameters calculated from initial variables
 
     'Create a new row for each timestep for the needed parameters'
     for t in range(int(len(f_z)/4)):
@@ -124,12 +128,10 @@ if __name__ == '__main__':
     df['CO211'] = df[['SF11']]*3981
     df['CO212'] = df[['SF12']]*1052
     df['Total CO2'] = df[['CO211','CO212']].sum(axis=1)
-    #print(df)
-    print(df.iloc[:, :8])
-    print(df.iloc[:, -11:])
-    params = [par11, par12]
-
-    print('Total objective: {}'.format(-1*objective_z(f_z, params)))
-
+    
+    print(df)
+    print('Total objective: {}'.format(-1*objective_z(f_z, params))) #final revenue in $/h
+    
+    #Uncomment the following two lines to get the dataframe into an excel where data can be better visualised.
     #path = 'C:/Users/...'
-    #df.to_excel(path)
+    #df.to_excel(path) 

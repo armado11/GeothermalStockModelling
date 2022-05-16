@@ -1,7 +1,7 @@
 # GeothermalStockModelling
 Definition of an Optimized Geothermal Utilization Strategy using Stock Reservoir Modelling as a Foundation
 
-This model was created by Arkaitz Manterola Donoso for the Master Thesis named '*Optimization of Sustainable Production Strategy for Geothermal Power Plants using Stock Reservoir Modelling*'. 
+This model was created by Arkaitz Manterola Donoso for the Master Thesis named '*Optimization of Sustainable Production Strategy for Geothermal Power Plants using Stock Reservoir Modelling*' found in Skemman by August 22. 
 
 There are two main models to the code. A stock model and a production strategy model.
 

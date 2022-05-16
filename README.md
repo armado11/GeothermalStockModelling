@@ -12,14 +12,14 @@ The second model will create a production strategy focused on increasing the gen
 **About the files in this repository:**
 
   *Provided code:* <br />
-    **main.py** is the main code, which will solve both models (stock and production strategy). <br />
-    **residaulmse** contains all equations needed to define the stock model and to calculate the sum of squares of the residuals for the stock model parametrization. <br />
-    **production** contains all equations needed to define and solve the production strategy model. <br />
+    -**main.py** is the main code, which will solve both models (stock and production strategy). <br />
+    -**residaulmse** contains all equations needed to define the stock model and to calculate the sum of squares of the residuals for the stock model parametrization. <br />
+    -**production** contains all equations needed to define and solve the production strategy model. <br />
 
   *Provided databases:* <br />
-    **BJ-11** and **BJ-12** contain data from wells BJ-11 and BJ-12 from the Bjarnarflag Power Station provided by Landsvirkjun. The dataset contains data throught different measurements over time. There is data on *Pressure* (bars), *Flow* (kg/s), *Enthalpy* (kJ/kg), *Well Status* (open, closed or bleed) and *Data quality* (Good, Fair, Suspect or Estimated). Additionally, time (*t*) has been calculated in years since the beginning of 2019, to be able to calculate time differentials (*Dt*) for each timestep. Extraction values from known data have been calculated from enthalpy and flow values in column *Extraction_d*. Additional columns *Stock*, *Recharge* and *Extraction* will be calculated by the model together by *Diff*, which measures the difference between extraction calculated from data and from the model (Eq. 8 in   the Master Thesis). <br />
-    **Production_5y** containts the final strategy model results using all the specified parameters and values in the case study. <br />
-    **Production_5y_noCO2** constaints the final strategy model results if the carbon tax is not considered. <br />
+    -**BJ-11** and **BJ-12** contain data from wells BJ-11 and BJ-12 from the Bjarnarflag Power Station provided by Landsvirkjun. The dataset contains data throught different measurements over time. There is data on *Pressure* (bars), *Flow* (kg/s), *Enthalpy* (kJ/kg), *Well Status* (open, closed or bleed) and *Data quality* (Good, Fair, Suspect or Estimated). Additionally, time (*t*) has been calculated in years since the beginning of 2019, to be able to calculate time differentials (*Dt*) for each timestep. Extraction values from known data have been calculated from enthalpy and flow values in column *Extraction_d*. Additional columns *Stock*, *Recharge* and *Extraction* will be calculated by the model together by *Diff*, which measures the difference between extraction calculated from data and from the model (Eq. 8 in   the Master Thesis). <br />
+    -**Production_5y** containts the final strategy model results using all the specified parameters and values in the case study. <br />
+    -**Production_5y_noCO2** constaints the final strategy model results if the carbon tax is not considered. <br />
 
 The code has been specifically built to solve the case study for Bjarnarflag Power Station. However, with small changes on different parts of the code, the code could be adapted to studies in other locations and with different characteristics. These changes can be pertaining to different estimations and information for this specific study: <br />
 - Having different initial databases instead of the ones provided for both wells (if this is the case, linear equations for enthaply and steam ratio, as well as carbon dioxide parameters and well boundaries would have to be overanalised and changed in *production.py* and in *main.py*). 

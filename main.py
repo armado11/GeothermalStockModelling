@@ -87,24 +87,13 @@ if __name__ == '__main__':
     cons = ({'type': 'ineq', 'fun': cons1, 'args': params}, 
             {'type': 'eq', 'fun': stock_balance, 'args': params})
 
-    '5.- Production optimization'
-    res = minimize(objective_z, z0, args = (params), method = 'SLSQP', bounds = bnds, constraints = cons, options= {'maxiter': 1000})
-    #res = minimize(objective_z, z0, args = (params), method = 'trust-constr', 
-    #                bounds = bnds, constraints = cons,
-    #                options={'maxiter': 250, 'verbose': 3})
-    print(res)
-    #print(res.x)
-
-    #print(cons1(z0, params))
-    #print(cons2(z0, params))
-    #print(stock_balance(z0, params))
-
+    '5.- Production optimization'#production strategy optimization, increase maxiter if more iterations are needed to reach optimum
+    res = minimize(objective_z, z0, args = (params), method = 'SLSQP', bounds = bnds, constraints = cons, options= {'maxiter': 1000})     
     f_z = res.x
     print(f_z)
     print(objective_z(f_z, params))
 
     '5.- Production estrategy database'
-    
     df = pd.DataFrame(columns = ['Year', 'P11', 'S11', 'E11', 'R11', 'H11', 'TF11', 'SF11', 'LF11',\
         'P12', 'S12', 'E12', 'R12', 'H12', 'TF12', 'SF12', 'LF12', \
         'Obj', 'Total Steam', 'Total Water', 'CO211', 'CO212', 'Total CO2']) #Create dataframe showing different parameters calculated from initial variables

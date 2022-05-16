@@ -1,3 +1,4 @@
+<div style="text-align: justify"> 
 # GeothermalStockModelling
 Definition of an Optimized Geothermal Utilization Strategy using Stock Reservoir Modelling as a Foundation
 
@@ -20,3 +21,5 @@ The second model will create a production strategy focused on increasing the gen
     **BJ-11** and **BJ-12** contain data from wells BJ-11 and BJ-12 from the Bjarnarflag Power Station provided by Landsvirkjun. The dataset contains data throught different measurements over time. There is data on *Pressure* (bars), *Flow* (kg/s), *Enthalpy* (kJ/kg), *Well Status* (open, closed or bleed) and *Data quality* (Good, Fair, Suspect or Estimated). Additionally, time (*t*) has been calculated in years since the beginning of 2019, to be able to calculate time differentials (*Dt*) for each timestep. Extraction values from known data have been calculated from enthalpy and flow values in column *Extraction_d*. Additional columns *Stock*, *Recharge* and *Extraction* will be calculated by the model together by *Diff*, which measures the difference between extraction calculated from data and from the model (Eq. 8 in   the Master Thesis). <br />
     **Production_5y** containts the final strategy model results using all the specified parameters and values in the case study. <br />
     **Production_5y_noCO2** constaints the final strategy model results if the carbon tax is not considered. <br />
+
+  </div>

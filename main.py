@@ -11,11 +11,11 @@ from prod_5y_linearx import E, R, H, fT, x, fS, fL, fCO2, objective_z, cons1, st
 if __name__ == '__main__':
 
     '1.- Input the final database for each well with all data preprocessed'
-    path = 'C:/User/Downloads/GeothermalStockModelling/Final BJ-11.xlsx'
+    path = 'C:/User/Downloads/GeothermalStockModelling/BJ-11.xlsx'
     data11 = pd.ExcelFile(f'{path}')
     BJ11 = pd.read_excel(data11, 1)
 
-    path = 'C:/User/Downloads/GeothermalStockModelling/Final BJ-12.xlsx'
+    path = 'C:/User/Downloads/GeothermalStockModelling/BJ-12.xlsx'
     data12 = pd.ExcelFile(f'{path}')
     BJ12 = pd.read_excel(data12, 0)
 

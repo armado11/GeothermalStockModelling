@@ -5,7 +5,7 @@ import pandas as pd
 from scipy.optimize import minimize
 
 #these code is provided in the 
-from residualmse import sum_of_squares
+from residualmse import sum_of_squares, model
 from prod_5y_linearx import E, R, H, fT, x, fS, fL, fCO2, objective_z, cons1, stock_balance
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ The second model will create a production strategy focused on increasing the gen
 -**Production_5y** containts the final strategy model results using all the specified parameters and values in the case study. <br />
 -**Production_5y_noCO2** constaints the final strategy model results if the carbon tax is not considered. <br />
 
-The code has been specifically built to solve the case study for Bjarnarflag Power Station. However, with small changes on different parts of the code, the code could be adapted to studies in other locations and with different characteristics. These changes can be pertaining to different estimations and information for this specific study: <br />
+The code has been specifically built to solve the case study for Bjarnarflag Power Station. However, with small changes on different parts of the code, the code could be adapted to studies in other locations and with different characteristics. These changes can be pertaining to different estimations and information for this specific study:
 - Having different initial databases instead of the ones provided for both wells (if this is the case, linear equations for enthaply and steam ratio, as well as carbon dioxide parameters and well boundaries would have to be overanalised and changed in *production.py* and in *main.py*). 
 - The objective coefficients (changes in prices) can be easily implemented in *production.py* file. 
 - Different extraction periods and timesteps can be applied to get more general or more specific data in *main.py* (the more datapoints wanted the more the code can take to solve)
